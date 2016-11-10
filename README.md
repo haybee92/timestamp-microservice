@@ -10,18 +10,19 @@ A Java implementation of the challenge found here https://www.freecodecamp.com/c
 
 ## Example usage:
 
-* https://timestamp-microservice-java.herokuapp.com/api/v1/timestamp/December%2015,%202015
-
-* { "unix": 1450137600, "natural": "December 15, 2015" }
-
+https://timestamp-microservice-java.herokuapp.com/api/v1/timestamp/December%2015,%202015
+```javascript
+{ "unix": 1450137600, "natural": "December 15, 2015" }
+```
 ================================================================================
 
-* https://timestamp-microservice-java.herokuapp.com/api/v1/timestamp/1450137600
-
-* { "unix": 1450137600, "natural": "December 15, 2015" }
-
+https://timestamp-microservice-java.herokuapp.com/api/v1/timestamp/1450137600
+```javascript
+{ "unix": 1450137600, "natural": "December 15, 2015" }
+ ```
 ================================================================================
 
-* https://timestamp-microservice-java.herokuapp.com/api/v1/timestamp/invalid
-
-* {"errorCode":"02","errorMessage":"Parameter not in correct format"}
+https://timestamp-microservice-java.herokuapp.com/api/v1/timestamp/invalid
+```javascript
+{"errorCode":"02","errorMessage":"Parameter not in correct format"}
+```
