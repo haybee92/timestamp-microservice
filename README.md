@@ -9,15 +9,15 @@ User stories:
 
 Example usage:
 
-Request==>  https://timestamp-ms.herokuapp.com/December%2015,%202015
+Request==>  https://timestamp-microservice-java.herokuapp.com/api/v1/timestamp/December%2015,%202015
 Response==> { "unix": 1450137600, "natural": "December 15, 2015" }
 
 ================================================================================
 
-Request==>  https://timestamp-ms.herokuapp.com/1450137600
+Request==>  https://timestamp-microservice-java.herokuapp.com/api/v1/timestamp/1450137600
 Response==> { "unix": 1450137600, "natural": "December 15, 2015" }
 
 ================================================================================
 
-Request==>  https://timestamp-ms.herokuapp.com/invalid
+Request==>  https://timestamp-microservice-java.herokuapp.com/api/v1/timestamp/invalid
 Response==> {"errorCode":"02","errorMessage":"Parameter not in correct format"}
