@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.koodu.api;
+package com.koodu.controller;
 
 import com.koodu.service.TimeService;
 import java.util.HashMap;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/api/v1/timestamp")
-public class TimeApi {
+public class TimeController {
 
     @Autowired
     TimeService timeService;
