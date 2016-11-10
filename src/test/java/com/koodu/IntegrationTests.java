@@ -20,12 +20,10 @@ public class IntegrationTests {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    private static final String BASE_URL = "/api/v1/timestamp";
-
     @Test
     public void testGetTimestampWithoutParam() {
 
-        ResponseEntity<HashMap> responseEntity = restTemplate.getForEntity(BASE_URL, HashMap.class);
+        ResponseEntity<HashMap> responseEntity = restTemplate.getForEntity(TestConstants.BASE_URL, HashMap.class);
         HashMap<String, String> response = responseEntity.getBody();
         MediaType mediaType = responseEntity.getHeaders().getContentType();
 
@@ -40,7 +38,7 @@ public class IntegrationTests {
         String unixTimestamp = "1453805026";
         String expectedNatural = "January 26, 2016";
 
-        ResponseEntity<HashMap> responseEntity = restTemplate.getForEntity(BASE_URL + "/" + unixTimestamp, HashMap.class);
+        ResponseEntity<HashMap> responseEntity = restTemplate.getForEntity(TestConstants.BASE_URL + "/" + unixTimestamp, HashMap.class);
         HashMap<String, String> response = responseEntity.getBody();
         MediaType mediaType = responseEntity.getHeaders().getContentType();
 
@@ -52,10 +50,10 @@ public class IntegrationTests {
 
     @Test
     public void testGetTimestampGivenNaturalDate() {
-        String expectedUnixTimestamp = "1453805026";
+        String expectedUnixTimestamp = "1453766400";
         String natural = "January 26, 2016";
 
-        ResponseEntity<HashMap> responseEntity = restTemplate.getForEntity(BASE_URL + "/" + natural, HashMap.class);
+        ResponseEntity<HashMap> responseEntity = restTemplate.getForEntity(TestConstants.BASE_URL + "/" + natural, HashMap.class);
         HashMap<String, String> response = responseEntity.getBody();
         MediaType mediaType = responseEntity.getHeaders().getContentType();
 
@@ -63,6 +61,20 @@ public class IntegrationTests {
         assertEquals("Content-Type mismatch", MediaType.APPLICATION_JSON_UTF8, mediaType);
         assertEquals("unix mixmatch", response.get("unix"), expectedUnixTimestamp);
         assertEquals("natural cannot be null", response.get("natural"), natural);
+    }
+
+    @Test
+    public void testGetTimestampGivenInvalidParam() {
+        String param = "invalid_string";
+
+        ResponseEntity<HashMap> responseEntity = restTemplate.getForEntity(TestConstants.BASE_URL + "/" + param, HashMap.class);
+        HashMap<String, String> response = responseEntity.getBody();
+        MediaType mediaType = responseEntity.getHeaders().getContentType();
+
+        assertEquals("Status code mismatch", HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertEquals("Content-Type mismatch", MediaType.APPLICATION_JSON_UTF8, mediaType);
+        assertEquals("unix mixmatch", response.get("errorCode"), "02");
+        assertEquals("natural cannot be null", response.get("errorMessage"), "Parameter not in correct format");
     }
 
     @Test

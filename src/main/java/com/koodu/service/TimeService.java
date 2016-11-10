@@ -1,11 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.koodu.service;
 
-import java.net.URLDecoder;
+import com.koodu.exception.TimeException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,25 +17,29 @@ import org.springframework.stereotype.Service;
 @Service
 public class TimeService {
 
-    public HashMap<String, String> getTimeStamp(String param) {
+    public HashMap<String, String> getTimeStamp(String param) throws TimeException {
         HashMap<String, String> timestamp = new HashMap<String, String>();
 
         long unixTimestamp = 0;
         String dateString = null;
 
         if (param != null && !param.isEmpty()) {
-            param = URLDecoder.decode(param);
             LocalDateTime passedDate = null;
             try {
-                passedDate = LocalDateTime.parse(param, DateTimeFormatter.ofPattern("MMMM dd, yyyy"));
-                dateString = passedDate.toString();
-                unixTimestamp = passedDate.toEpochSecond(ZoneOffset.UTC);
-            } catch (DateTimeParseException ex) {
-                long epoch = Long.parseLong(param);
-                Instant instant = Instant.ofEpochSecond(epoch);
-                passedDate = LocalDateTime.ofInstant(instant, ZoneOffset.UTC);
+                passedDate = LocalDate.parse(param, DateTimeFormatter.ofPattern("MMMM dd, yyyy")).atStartOfDay();
                 dateString = passedDate.format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"));
                 unixTimestamp = passedDate.toEpochSecond(ZoneOffset.UTC);
+            } catch (DateTimeParseException ex) {
+                try {
+                    long epoch = Long.parseLong(param);
+                    Instant instant = Instant.ofEpochSecond(epoch);
+                    passedDate = LocalDateTime.ofInstant(instant, ZoneOffset.UTC);
+                    dateString = passedDate.format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"));
+                    unixTimestamp = passedDate.toEpochSecond(ZoneOffset.UTC);
+                } catch (NumberFormatException nfe) {
+                    throw new TimeException("02", "Parameter not in correct format");
+                }
+
             }
         } else {
             Instant currentTime = Instant.now();

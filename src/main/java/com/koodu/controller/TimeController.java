@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.koodu.controller;
 
+import com.koodu.exception.TimeException;
 import com.koodu.service.TimeService;
 import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +21,12 @@ public class TimeController {
     TimeService timeService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public HashMap<String, String> getTimeStamp() {
+    public HashMap<String, String> getTimeStamp() throws TimeException {
         return timeService.getTimeStamp(null);
     }
 
     @RequestMapping(value = "/{param}", method = RequestMethod.GET)
-    public HashMap<String, String> getTimeStamp(@PathVariable("param") String param) {
+    public HashMap<String, String> getTimeStamp(@PathVariable("param") String param) throws TimeException {
         return timeService.getTimeStamp(param);
     }
 }
